@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+
+body{
+
+
+  background: linear-gradient(rgb(25, 25, 167),rgb(6, 6, 70)),url("/bg.jpeg");
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+}
+
+
+  
+
