@@ -1,0 +1,34 @@
+import React, { useEffect, useRef } from "react";
+import useGetMessages from "../../hooks/useGetMessages";
+import Message from "./Message";
+import MessageSkeleton from "../skeletons/MessageSkeleton";
+import useListenMessages from "../../hooks/useListenMessages";
+
+const Messages = () => {
+  const { messages = [], loading } = useGetMessages();
+  const messageContainerRef = useRef(null);
+
+  useListenMessages();
+
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      console.log("Scrolled to bottom", messageContainerRef.current.scrollHeight);
+    }
+  }, [messages]);
+
+  return (
+    <div ref={messageContainerRef} className="px-4 flex-1 h-130 overflow-y-auto overflow-x-hidden">
+      {!loading && Array.isArray(messages) && messages.length > 0 &&
+        messages.map((msg) => <Message key={msg._id} message={msg} />)}
+
+      {loading && [...Array(3)].map((_, idx) => <MessageSkeleton key={idx} />)}
+
+      {!loading && Array.isArray(messages) && messages.length === 0 && (
+        <p className="text-center">Send a Message to Start the conversation</p>
+      )}
+    </div>
+  );
+};
+
+export default Messages;
